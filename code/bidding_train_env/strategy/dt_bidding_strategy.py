@@ -4,7 +4,7 @@ import numpy as np
 import os
 import psutil
 # from saved_model.DTtest.dt import DecisionTransformer
-from bidding_train_env.baseline.dt.dt import DecisionTransformer
+from bidding_train_env.baseline.dt.dt import GAVE
 from bidding_train_env.strategy.base_bidding_strategy import BaseBiddingStrategy
 import torch
 import pickle
@@ -44,7 +44,7 @@ class DtBiddingStrategy(BaseBiddingStrategy):
 
         with open(picklePath, 'rb') as f:
             normalize_dict = pickle.load(f)
-        self.model = DecisionTransformer(state_dim=16, act_dim=1,
+        self.model = GAVE(state_dim=16, act_dim=1,
                                 hidden_size=model_param['hidden_size'], state_mean=normalize_dict["state_mean"],
                                 state_std=normalize_dict["state_std"], device=model_param['device'],
                                 learning_rate=model_param["learning_rate"], time_dim=model_param['time_dim'],

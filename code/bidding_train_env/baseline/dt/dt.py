@@ -75,7 +75,7 @@ class Block(nn.Module):
         return x
 
 
-class DecisionTransformer(nn.Module):
+class GAVE(nn.Module):
 
     def __init__(self, state_dim, act_dim, state_mean, state_std, hidden_size=64, action_tanh=False, K=20,
                  max_ep_len=96, scale=2000, warmup_steps=10000, weight_decay=0.0001,learning_rate=0.0001, time_dim=8,
@@ -92,7 +92,7 @@ class DecisionTransformer(nn.Module):
                      "attn_pdrop": 0.1,
                  }
                  ):
-        super(DecisionTransformer, self).__init__()
+        super(GAVE, self).__init__()
         self.device = device
 
         self.length_times = 3

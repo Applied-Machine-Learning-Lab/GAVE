@@ -1,7 +1,7 @@
 import numpy as np
 from bidding_train_env.common.utils import normalize_state, normalize_reward, save_normalize_dict
 from bidding_train_env.baseline.dt.utils import EpisodeReplayBuffer
-from bidding_train_env.baseline.dt.dt import DecisionTransformer
+from bidding_train_env.baseline.dt.dt import GAVE
 from torch.utils.data import DataLoader, WeightedRandomSampler
 import logging
 import pickle
@@ -30,7 +30,7 @@ def train_model(device="cpu", step_num=10000, dir="./data/trajectory/trajectory_
     model_param['state_mean'] = replay_buffer.state_mean
     model_param['state_std'] = replay_buffer.state_std
     model_param['device'] = device
-    model = DecisionTransformer(state_dim=state_dim, act_dim=1,
+    model = GAVE(state_dim=state_dim, act_dim=1,
                                 hidden_size=model_param['hidden_size'], state_mean=model_param['state_mean'],
                                 state_std=model_param['state_std'], device=model_param['device'],
                                 learning_rate=model_param["learning_rate"], time_dim=model_param['time_dim'],
@@ -67,7 +67,7 @@ def train_model(device="cpu", step_num=10000, dir="./data/trajectory/trajectory_
 def load_model(device="cpu"):
     with open('./Model/DT/saved_model/normalize_dict.pkl', 'rb') as f:
         normalize_dict = pickle.load(f)
-    model = DecisionTransformer(state_dim=16, act_dim=1, state_mean=normalize_dict["state_mean"],
+    model = GAVE(state_dim=16, act_dim=1, state_mean=normalize_dict["state_mean"],
                                 state_std=normalize_dict["state_std"]).to(device)
     model.load_net("Model/DTtest/saved_model", device=device)
     test_state = np.ones(16, dtype=np.float32)

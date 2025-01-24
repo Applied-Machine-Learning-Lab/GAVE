@@ -6,6 +6,8 @@
 
 - Because the dataset is too large to upload, you need to add the dataset before it can run
 
+- GAVE sturcture: code/bidding_train_env/baseline/dt/dt.py
+
 **Implementation Details**:  
 
 - **Codebase**: Lightweight reference implementation using a variant of the [AuctionNet](https://github.com/alimama-tech/AuctionNet) benchmark, i.e.,  [AIGB](https://github.com/alimama-tech/NeurIPS_Auto_Bidding_AIGB_Track_Baseline)
