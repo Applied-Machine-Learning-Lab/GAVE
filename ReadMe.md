@@ -24,4 +24,4 @@
 
 - Run:  
 
-  ```python code/main_train_test.py```
+  ```python code/main/main_train_test.py```
