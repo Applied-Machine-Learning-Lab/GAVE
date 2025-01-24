@@ -6,7 +6,7 @@
 
 - Because the dataset is too large to upload, you need to add the dataset before it can run
 
-- GAVE sturcture: code/bidding_train_env/baseline/dt/dt.py
+- GAVE sturcture: code/bidding_train_env/baseline/dt/dt.py -> class GAVE
 
 **Implementation Details**:  
 
