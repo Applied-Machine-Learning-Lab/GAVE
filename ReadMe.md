@@ -1,4 +1,4 @@
-**Note ! ! !**
+# Note ! ! !
 
 - A rough implementation code for GAVE.
 
