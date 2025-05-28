@@ -1,6 +1,6 @@
-# Note ! ! !
+# Introduction
 
-- A rough implementation code for GAVE.
+- This is the code reference for the main process of **GAVE** accepted by SIGIR'25.
 
 - The code provided is for reference only. 
 
@@ -32,11 +32,10 @@
 If you feel our work is insightful and want to use the code or cite our paper, please add the following citation to your paper references.
 
 ```
-@inproceedings{gao2025samplellm,
-  title={SampleLLM: Optimizing Tabular Data Synthesis in Recommendations},
-  author={Gao, Jingtong and Du, Zhaocheng and Li, Xiaopeng and Wang, Yichao and Li, Xiangyang and Guo, Huifeng and Tang, Ruiming and Zhao, Xiangyu},
-  booktitle={Companion Proceedings of the ACM on Web Conference 2025},
-  pages={211--220},
+@article{gao2025generative,
+  title={Generative Auto-Bidding with Value-Guided Explorations},
+  author={Gao, Jingtong and Li, Yewen and Mao, Shuai and Jiang, Peng and Jiang, Nan and Wang, Yejing and Cai, Qingpeng and Pan, Fei and Gai, Kun and An, Bo and others},
+  journal={arXiv preprint arXiv:2504.14587},
   year={2025}
 }
 ```
