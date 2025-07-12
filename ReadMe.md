@@ -28,6 +28,36 @@
 
   ```python code/main/main_train_test.py```
 
+# Note
+The loss function in the original paper is highly sensitive to the hyperparameters, so it requires careful adjustment to achieve good results. This might be because the accuracy of the estimation of the value function significantly affects the model performance.
+
+In addition, we have provided a more stable loss function without learnable value functions. It may not perform as well as the original loss function with careful adjustment, but it is more stable and only requires a slight adjustment of the hyperparameters to achieve a comparable effect as described in the paper.
+
+You can adjust the loss in code/bidding_train_env/baseline/dt/dt.py
+
+```
+# Loss function without learnable value function. It's more stable but may perform worse than a finetuned loss with learnable value function.
+# In this case, we simply boost exploration by maxmaizing curr_score_preds_1 in wo.
+# wo = torch.sigmoid(1 * (curr_score_preds_1-curr_score_preds.clone().detach()))
+# wo_frozen = wo.clone().detach()
+# loss1 = torch.mean((1-wo_frozen)*((action_preds - action_target) ** 2) + wo_frozen*((action_preds - action_1_frozen) ** 2))
+# loss2 = torch.mean((curr_score_preds - curr_score_target) ** 2)*200
+# loss3 = torch.mean(1-wo)*100
+# loss = loss1+loss2+loss3
+
+# The loss in the paper. It's param sensitive and need careful param selection.
+wo = torch.sigmoid(100 * (curr_score_preds_1 - curr_score_preds))
+wo_frozen = wo.clone().detach()
+diff = curr_score_target - value_preds
+weight = torch.where(diff > 0, self.expectile, (1 - self.expectile))
+loss1 = torch.mean((1 - wo_frozen) * ((action_preds - action_target) ** 2) +
+                  wo_frozen * ((action_preds - action_1_frozen) ** 2))
+loss2 = torch.mean((curr_score_preds - curr_score_target) ** 2) * 200
+loss3 = torch.mean(weight * (diff ** 2)) * 100
+loss4 = torch.mean((curr_score_preds_1 - value_preds_frozen) ** 2) * 100
+loss = loss1 + loss2 + loss3 + loss4
+```
+
 # Citation
 If you feel our work is insightful and want to use the code or cite our paper, please add the following citation to your paper references.
 
