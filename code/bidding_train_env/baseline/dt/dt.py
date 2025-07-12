@@ -271,6 +271,17 @@ class GAVE(nn.Module):
         curr_score_target = curr_score_target.reshape(-1, curr_score_dim)[attention_mask.reshape(-1) > 0]
         value_preds = value_preds.reshape(-1, curr_score_dim)[attention_mask.reshape(-1) > 0]
         value_preds_frozen = value_preds.clone().detach()
+
+        # Loss function without learnable value function. It's more stable but may perform worse than a finetuned loss with learnable value function.
+        # In this case, we simply boost exploration by maxmaizing curr_score_preds_1 in wo.
+        # wo = torch.sigmoid(1 * (curr_score_preds_1-curr_score_preds.clone().detach()))
+        # wo_frozen = wo.clone().detach()
+        # loss1 = torch.mean((1-wo_frozen)*((action_preds - action_target) ** 2) + wo_frozen*((action_preds - action_1_frozen) ** 2))
+        # loss2 = torch.mean((curr_score_preds - curr_score_target) ** 2)*200
+        # loss3 = torch.mean(1-wo)*100
+        # loss = loss1+loss2+loss3
+
+        # The loss in the paper. It's param sensitive and need careful param selection.
         wo = torch.sigmoid(100 * (curr_score_preds_1 - curr_score_preds))
         wo_frozen = wo.clone().detach()
         diff = curr_score_target - value_preds
@@ -281,6 +292,7 @@ class GAVE(nn.Module):
         loss3 = torch.mean(weight * (diff ** 2)) * 100
         loss4 = torch.mean((curr_score_preds_1 - value_preds_frozen) ** 2) * 100
         loss = loss1 + loss2 + loss3 + loss4
+        
         self.optimizer.zero_grad()
         loss.backward()
         torch.nn.utils.clip_grad_norm_(self.parameters(), .25)
